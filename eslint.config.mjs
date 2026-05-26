@@ -19,7 +19,7 @@ const eslintConfig = defineConfig([
     "build/**",
     "next-env.d.ts",
     // Test files
-    "__tests__/**",
+    "src/__tests__/**",
   ]),
 ]);
 

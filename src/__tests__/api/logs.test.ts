@@ -2,7 +2,7 @@ import initSqlJs, { Database } from 'sql.js'
 import fs from 'fs'
 import path from 'path'
 
-const testDbPath = path.join(__dirname, '../../database', 'weekly-report-api-test.sqlite')
+const testDbPath = path.join(__dirname, '../../../database', 'weekly-report-api-test.sqlite')
 
 // 重置数据库模块
 jest.resetModules()

@@ -3,7 +3,7 @@ import fs from 'fs'
 import path from 'path'
 
 // 使用一个临时路径存储测试用数据库
-const testDbPath = path.join(__dirname, '../../database', 'weekly-report-test.sqlite')
+const testDbPath = path.join(__dirname, '../../../database', 'weekly-report-test.sqlite')
 
 beforeAll(() => {
   // 确保测试目录存在

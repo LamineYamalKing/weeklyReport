@@ -11,7 +11,7 @@ describe('首页重定向测试', () => {
     // 验证 src/app/page.tsx 使用了 redirect
     const fs = require('fs')
     const path = require('path')
-    const pageContent = fs.readFileSync(path.join(__dirname, '../../src/app/page.tsx'), 'utf-8')
+    const pageContent = fs.readFileSync(path.join(__dirname, '../../app/page.tsx'), 'utf-8')
 
     expect(pageContent).toContain("redirect('/logs')")
   })
@@ -27,7 +27,7 @@ describe('类型定义测试', () => {
   test('ApiResponse 接口定义应该正确', async () => {
     const fs = require('fs')
     const path = require('path')
-    const typesContent = fs.readFileSync(path.join(__dirname, '../../src/types/index.ts'), 'utf-8')
+    const typesContent = fs.readFileSync(path.join(__dirname, '../../types/index.ts'), 'utf-8')
 
     expect(typesContent).toContain('WorkLog')
     expect(typesContent).toContain('Tag')

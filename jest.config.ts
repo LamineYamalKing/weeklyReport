@@ -20,7 +20,7 @@ const config: Config = {
   projects: [
     {
       displayName: 'db',
-      testMatch: ['<rootDir>/__tests__/lib/**/*.test.ts'],
+      testMatch: ['<rootDir>/src/__tests__/lib/**/*.test.ts'],
       testEnvironment: 'node',
       transform: {
         '^.+\\.tsx?$': ['ts-jest', { tsconfig: 'tsconfig.test.json' }],
@@ -31,7 +31,7 @@ const config: Config = {
     },
     {
       displayName: 'api',
-      testMatch: ['<rootDir>/__tests__/api/**/*.test.ts'],
+      testMatch: ['<rootDir>/src/__tests__/api/**/*.test.ts'],
       testEnvironment: 'node',
       transform: {
         '^.+\\.tsx?$': ['ts-jest', { tsconfig: 'tsconfig.test.json' }],
@@ -42,7 +42,7 @@ const config: Config = {
     },
     {
       displayName: 'components',
-      testMatch: ['<rootDir>/__tests__/components/**/*.test.tsx'],
+      testMatch: ['<rootDir>/src/__tests__/components/**/*.test.tsx'],
       testEnvironment: 'jsdom',
       setupFilesAfterEnv: ['<rootDir>/jest.setup.ts'],
       transform: {
