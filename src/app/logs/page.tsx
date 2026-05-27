@@ -3,6 +3,7 @@
 import { useState, useEffect, useCallback } from 'react'
 import { WorkLog, Tag } from '@/types'
 import { useTimer } from '@/components/TimerProvider'
+import InlineTimer from '@/components/InlineTimer'
 
 export default function LogsPage() {
   const [logs, setLogs] = useState<WorkLog[]>([])
@@ -21,7 +22,7 @@ export default function LogsPage() {
     actual_hours: 0,
     tagIds: [] as number[],
   })
-  const { startTimer, running: timerRunning } = useTimer()
+  const { startTimer, logId: activeLogId } = useTimer()
 
   const fetchTags = async () => {
     try {
@@ -379,7 +380,7 @@ export default function LogsPage() {
                 </div>
                 {/* 操作按钮 */}
                 <div className="flex items-center gap-1 shrink-0">
-                  {!timerRunning && (
+                  {activeLogId !== log.id && (
                     <button
                       onClick={() => startTimer(log.id, log.title)}
                       className="p-1.5 rounded-lg text-green-600 hover:bg-green-50 transition-colors"
@@ -388,6 +389,7 @@ export default function LogsPage() {
                       <svg className="w-4 h-4" viewBox="0 0 20 20" fill="currentColor"><path d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" /></svg>
                     </button>
                   )}
+                  <InlineTimer logId={log.id} />
                   <button
                     onClick={() => handleEdit(log)}
                     className="p-1.5 rounded-lg text-blue-600 hover:bg-blue-50 transition-colors"

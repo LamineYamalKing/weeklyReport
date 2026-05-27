@@ -24,6 +24,7 @@ export async function getDb(): Promise<Database> {
         db = new SQL.Database(buffer)
       } else {
         db = new SQL.Database()
+        db.run('PRAGMA encoding = "UTF-8"')
         initTables()
         saveDb()
       }

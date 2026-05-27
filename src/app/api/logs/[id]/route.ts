@@ -42,7 +42,18 @@ export async function PUT(
   try {
     const { id } = await params
     const body = await request.json()
-    const { date, title, description, estimated_hours, actual_hours, tagIds } = body
+    const { action, date, title, description, estimated_hours, actual_hours, tagIds } = body
+
+    // 页面关闭时的自动提交，只更新 actual_hours
+    if (action === 'auto_commit' && actual_hours !== undefined) {
+      await getDb()
+      run(
+        'UPDATE work_logs SET actual_hours = ?, updated_at = CURRENT_TIMESTAMP WHERE id = ?',
+        [actual_hours, id]
+      )
+      saveDb()
+      return NextResponse.json({ success: true, data: queryOne('SELECT * FROM work_logs WHERE id = ?', [id]) })
+    }
 
     await getDb()
     const existing = queryOne('SELECT id FROM work_logs WHERE id = ?', [id])
@@ -60,8 +71,9 @@ export async function PUT(
 
     if (tagIds !== undefined) {
       run('DELETE FROM work_log_tags WHERE work_log_id = ?', [id])
-      if (tagIds.length > 0) {
-        for (const tagId of tagIds) {
+      const validTagIds = tagIds.filter(tagId => tagId != null)
+      if (validTagIds.length > 0) {
+        for (const tagId of validTagIds) {
           run('INSERT INTO work_log_tags (work_log_id, tag_id) VALUES (?, ?)', [id, tagId])
         }
       }
@@ -69,7 +81,8 @@ export async function PUT(
 
     const log = queryOne('SELECT * FROM work_logs WHERE id = ?', [id])
     return NextResponse.json({ success: true, data: log })
-  } catch (_error) {
+  } catch (error) {
+    console.error('Failed to update log:', error)
     return NextResponse.json(
       { success: false, error: 'Failed to update log' },
       { status: 500 }

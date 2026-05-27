@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import "./globals.css";
 import { TimerProvider } from "@/components/TimerProvider";
-import FloatingTimer from "@/components/FloatingTimer";
 
 export const metadata: Metadata = {
   title: "周报工具",
@@ -49,8 +48,6 @@ export default function RootLayout({
         </header>
         {/* 计时器全局 Provider */}
         <TimerProvider>
-          {/* 浮动计时器 */}
-          <FloatingTimer />
           {/* 主内容区 */}
           <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 animate-fade-in">
             {children}
