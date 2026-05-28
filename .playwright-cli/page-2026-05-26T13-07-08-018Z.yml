@@ -1,0 +1,48 @@
+- generic [active] [ref=e1]:
+  - banner [ref=e2]:
+    - generic [ref=e4]:
+      - link "📋 周报工具" [ref=e5] [cursor=pointer]:
+        - /url: /
+        - generic [ref=e6]: 📋
+        - generic [ref=e7]: 周报工具
+      - navigation [ref=e8]:
+        - link "📝 工作日志" [ref=e9] [cursor=pointer]:
+          - /url: /logs
+          - generic [ref=e10]: 📝
+          - generic [ref=e11]: 工作日志
+        - link "🏷️ 标签管理" [ref=e12] [cursor=pointer]:
+          - /url: /tags
+          - generic [ref=e13]: 🏷️
+          - generic [ref=e14]: 标签管理
+        - link "📊 周报" [ref=e15] [cursor=pointer]:
+          - /url: /report
+          - generic [ref=e16]: 📊
+          - generic [ref=e17]: 周报
+        - link "📈 统计" [ref=e18] [cursor=pointer]:
+          - /url: /stats
+          - generic [ref=e19]: 📈
+          - generic [ref=e20]: 统计
+  - main [ref=e21]:
+    - generic [ref=e22]:
+      - generic [ref=e23]:
+        - generic [ref=e24]:
+          - heading "工作日志" [level=1] [ref=e25]
+          - paragraph [ref=e26]: 共 0 条 · 总时长 0.0h · 预计 0.0h
+        - button "新建日志" [ref=e27]:
+          - img [ref=e28]
+          - text: 新建日志
+      - generic [ref=e31]:
+        - generic [ref=e32]:
+          - generic [ref=e33]: 开始日期
+          - textbox [ref=e34]
+        - generic [ref=e35]:
+          - generic [ref=e36]: 结束日期
+          - textbox [ref=e37]
+        - generic [ref=e38]:
+          - generic [ref=e39]: 标签
+          - combobox [ref=e40]:
+            - option "全部标签" [selected]
+        - generic [ref=e41]:
+          - button "今天" [ref=e42]
+          - button "本周" [ref=e43]
+      - paragraph [ref=e46]: 加载中...

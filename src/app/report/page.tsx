@@ -36,6 +36,33 @@ export default function ReportPage() {
     return groups
   }
 
+  const [postingSlack, setPostingSlack] = useState(false)
+  const [slackStatus, setSlackStatus] = useState<'idle' | 'success' | 'error'>('idle')
+
+  const handlePostToSlack = async () => {
+    if (!report) return
+    setPostingSlack(true)
+    setSlackStatus('idle')
+    try {
+      const res = await fetch('/api/slack', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ report }),
+      })
+      const json = await res.json()
+      if (json.success) {
+        setSlackStatus('success')
+      } else {
+        setSlackStatus('error')
+      }
+    } catch {
+      setSlackStatus('error')
+    } finally {
+      setPostingSlack(false)
+      setTimeout(() => setSlackStatus('idle'), 3000)
+    }
+  }
+
   const exportMarkdown = () => {
     if (!report) return
     let md = `# 工作周报\n\n`
@@ -205,6 +232,25 @@ export default function ReportPage() {
           <button onClick={exportText} className="inline-flex items-center gap-1.5 bg-purple-600 text-white px-4 py-2 rounded-lg hover:bg-purple-700 transition-colors text-sm font-medium">
             <svg className="w-4 h-4" viewBox="0 0 20 20" fill="currentColor"><path d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm3.293-7.707a1 1 0 011.414 0L9 10.586V3a1 1 0 112 0v7.586l1.293-1.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z" /></svg>
             导出文本
+          </button>
+          <button
+            onClick={handlePostToSlack}
+            disabled={postingSlack}
+            className="inline-flex items-center gap-1.5 bg-[#4A154B] text-white px-4 py-2 rounded-lg hover:bg-[#611f69] transition-colors text-sm font-medium disabled:opacity-50"
+          >
+            {postingSlack ? (
+              <span className="flex items-center gap-2">
+                <svg className="animate-spin h-4 w-4" viewBox="0 0 24 24"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none"></circle><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path></svg>
+                发送中...
+              </span>
+            ) : slackStatus === 'success' ? (
+              '✓ 已发送'
+            ) : (
+              <>
+                <svg className="w-4 h-4" viewBox="0 0 24 24" fill="currentColor"><path d="M5.042 15.165a2.528 2.528 0 0 1-2.52 2.523A2.528 2.528 0 0 1 0 15.165a2.527 2.527 0 0 1 2.522-2.52h2.52v2.52zm1.271 0a2.527 2.527 0 0 1 2.521-2.52 2.527 2.527 0 0 1 2.521 2.52v6.313A2.528 2.528 0 0 1 8.834 24a2.528 2.528 0 0 1-2.521-2.522v-6.313zM8.834 5.042a2.528 2.528 0 0 1-2.521-2.52A2.528 2.528 0 0 1 8.834 0a2.528 2.528 0 0 1 2.521 2.522v2.52H8.834zm0 1.271a2.528 2.528 0 0 1 2.521 2.521 2.528 2.528 0 0 1-2.521 2.521H2.522A2.528 2.528 0 0 1 0 8.834a2.528 2.528 0 0 1 2.522-2.521h6.312zm10.124 2.521a2.528 2.528 0 0 1 2.522-2.521A2.528 2.528 0 0 1 24 8.834a2.528 2.528 0 0 1-2.52 2.521h-2.522V8.834zm-1.271 0a2.528 2.528 0 0 1-2.521 2.521 2.528 2.528 0 0 1-2.521-2.521V2.522A2.528 2.528 0 0 1 15.165 0a2.528 2.528 0 0 1 2.522 2.522v6.312zm-2.522 10.124a2.528 2.528 0 0 1 2.522 2.52A2.528 2.528 0 0 1 15.165 24a2.527 2.527 0 0 1-2.52-2.522v-2.522h2.52zm0-1.271a2.527 2.527 0 0 1-2.52-2.521 2.526 2.526 0 0 1 2.52-2.521h6.313A2.527 2.527 0 0 1 24 15.165a2.528 2.528 0 0 1-2.522 2.521h-6.313z"/></svg>
+                发送到 Slack
+              </>
+            )}
           </button>
           <button onClick={handlePrint} className="inline-flex items-center gap-1.5 bg-gray-600 text-white px-4 py-2 rounded-lg hover:bg-gray-700 transition-colors text-sm font-medium ml-auto">
             打印
