@@ -7,9 +7,17 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
+    "typecheck": "tsc --noEmit",
     "test": "jest --forceExit --detectOpenHandles",
     "test:watch": "jest --watch",
-    "mcp:slack": "npx tsx mcp/servers/slack.ts"
+    "mcp:slack": "npx tsx mcp/servers/slack.ts",
+    "prepare": "husky"
+  },
+  "lint-staged": {
+    "*.{ts,tsx}": [
+      "eslint --fix",
+      "tsc --noEmit"
+    ]
   },
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.29.0",
@@ -30,8 +38,10 @@
     "@types/react-dom": "^19",
     "eslint": "^9",
     "eslint-config-next": "16.2.6",
+    "husky": "^9.1.7",
     "jest": "^30.4.2",
     "jest-environment-jsdom": "^30.4.1",
+    "lint-staged": "^17.0.5",
     "tailwindcss": "^4",
     "ts-jest": "^29.4.11",
     "ts-node": "^10.9.2",
